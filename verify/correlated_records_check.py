@@ -98,7 +98,9 @@ for phi in [0.0, 0.5, 1.0, np.pi / 2]:
     proc = bell_pair_process(2, cats, 2)
     _, sp, _ = proc.simulate([I2, R, I2], 0, return_states=True, psi_i=plus)
     _, sm, _ = proc.simulate([I2, R, I2], 0, return_states=True, psi_i=minus)
-    print(f"     phi = {phi:.2f}: D_1 = {trace_distance(sp[1], sm[1]):.3f}, D_2 = {trace_distance(sp[2], sm[2]):.3f} (cos^2(phi/2) = {np.cos(phi/2)**2:.3f})")
+    D2 = trace_distance(sp[2], sm[2])
+    record("partial revival |cos phi|", abs(D2 - abs(np.cos(phi))))
+    print(f"     phi = {phi:.2f}: D_1 = {trace_distance(sp[1], sm[1]):.3f}, D_2 = {D2:.3f} (|cos phi| = {abs(np.cos(phi)):.3f})")
 
 # ---------------------------------------------------------------- (b) chain of pairs
 print("(b) Chain of pairs: F = [all consecutive changes equal]")
