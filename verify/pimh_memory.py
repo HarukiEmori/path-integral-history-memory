@@ -1,5 +1,5 @@
 """Shared tools for the numerical checks of the manuscript
-"Records with Memory: A Non-Markovian Extension of a Path Integral Model of History"
+"A Non-Markovian Extension of a Path Integral Model of History"
 (H. Emori and A. Iriki).
 
 The basic model (Emori and Iriki, "A Path Integral Model of History"): a system on C^X with
