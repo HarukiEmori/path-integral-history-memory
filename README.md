@@ -2,10 +2,10 @@
 
 Numerical verification scripts for the manuscript *A Non-Markovian Extension of a Path Integral Model of History* (H. Emori and A. Iriki, 2026).
 The manuscript extends *A Path Integral Model of History* (same authors) from records taken by fresh independent probes to records with memory, an archive that is marked at several epochs, prepared in a correlated state, or processed between the records.
-This repository holds the checks, the data of the two numerical figures, and the circuits and results of a memory witness run on a Quantinuum emulator and processor; the manuscript itself is not kept here.
+This repository holds only the checks and the data of the two numerical figures; the manuscript itself is not kept here.
 
 ## Requirements
-Python 3.11 or later with NumPy (SciPy is not needed) for `verify/`. On the authors' machine: `~/Develop/venv/quantum-env/bin/python` (NumPy 2.4). The script in `emulation/` needs pytket (2.18) and, for remote runs, qnexus (0.51) with a stored Nexus login.
+Python 3.11 or later with NumPy (SciPy is not needed). On the authors' machine: `~/Develop/venv/quantum-env/bin/python` (NumPy 2.4).
 
 ## Layout
 | Path | Content |
@@ -21,8 +21,6 @@ Python 3.11 or later with NumPy (SciPy is not needed) for `verify/`. On the auth
 | `verify/gaussian_field_check.py` | Gaussian pointer fields (Proposition 9): the overlap of displaced Gaussians by quadrature, the momentum covariance of the pure Gaussian state, the exponential kernel (persistent versus alternating differences, white-noise and ledger limits), and the spectral (filter-function) form of the exponent |
 | `verify/retrodiction_check.py` | Section 6 (Propositions 12 and 13): causality (states and forward readout statistics do not depend on later operations), the past-quantum-state formula against brute-force conditional probabilities, the dependence of the retrodicted distribution on later valuations at $\kappa > 0$ and its reduction to forward-backward smoothing at $\kappa = 0$, and the ABL rule |
 | `verify/figure_data.py` | Writes `figures/fig_counter.dat` (sensitivity to the valuation of a counter of capacity $D$ over six recorded epochs) and `figures/fig_gauss.dat` (influence functional of the exponential kernel as a function of the correlation $r$), whose values are inlined as pgfplots coordinates in the manuscript |
-| `emulation/memory_witness.py` | Circuits of the memory witness of Sec. 8 (three qubits: the course and an entangled pair of archive qubits; the visibility of a two-path interferometer is 0 after the first record and 1 after the second, which a memoryless record process cannot produce), a memoryless control, and the consulted-pair example of Proposition 11; ideal values from the state vectors, analysis of counts, and submission and retrieval through Quantinuum Nexus |
-| `results/<device>/` | Submission records (`submission_*.json`, with the Nexus job identifiers), counts (`counts_*.json`) and analysis (`analysis_*.json`) of the runs of `emulation/memory_witness.py` |
 
 ## Run
 ```bash
@@ -31,22 +29,6 @@ for f in influence_functional_check.py identification_check.py backaction_check.
 python figure_data.py
 ```
 Every check script prints `ALL PASS` when all checks pass; the printed discrepancies are of the order of machine precision (the quadrature and finite-difference checks of `gaussian_field_check.py` are accurate to about $10^{-4}$ or better).
-
-## Memory witness on a Quantinuum emulator and processor
-```bash
-cd emulation
-python memory_witness.py --local                          # ideal values from the state vectors (no remote call)
-python memory_witness.py --submit reimei-E --shots 1000   # emulator of reimei, all nine circuits
-python memory_witness.py --submit reimei --shots 200 --set witness --confirm-hardware --max-total-cost 60
-python memory_witness.py --status results/reimei/submission_<tag>.json
-python memory_witness.py --fetch  results/reimei/submission_<tag>.json
-```
-Runs recorded in `results/` (times in UTC as reported by Nexus; circuits compiled on Nexus at optimisation level 2):
-
-| Device | Circuits | Shots | Submitted | Result |
-| :-- | :-- | :-- | :-- | :-- |
-| `reimei-E` (emulator) | 9 (witness, control, consulted pair) | 1000 | 2026-11-16 07:01 | visibility $-0.021 \pm 0.022$ after one record and $0.992 \pm 0.003$ after two (ideal 0 and 1); control $0.002 \pm 0.022$; consulted pair $P(0) = 0.998,\ 0.512,\ 0.008$ at $\vartheta = 0,\ \pi/2,\ \pi$ |
-| `reimei` (processor) | 4 (witness) | 200 | 2026-11-16 07:04 | queued at the time of this commit; see `results/reimei/` |
 
 ## Conventions
 The numbering of theorems and propositions in the table follows the manuscript of 2026-11-15 (Theorems 1--4, Corollaries 1--3, Propositions 1--14). Epochs are numbered from 1 and a record at epoch $t$ is applied after the step $W_t$. The kernel is stored as a matrix indexed by record sequences in the order of `itertools.product`, with `F[i, j] = <Phi_j | Phi_i>` in the convention $F[\mathbf a,\mathbf a'] = \langle\Phi_{\mathbf a'}\vert\Phi_{\mathbf a}\rangle$ of the manuscript.
