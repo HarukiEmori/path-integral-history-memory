@@ -1,0 +1,114 @@
+{
+ "tag": "20261115-230056",
+ "device": "reimei-E",
+ "shots": 1000,
+ "set": "all",
+ "project": "path-integral-history-memory",
+ "compile_job_id": "4b7756fc-3964-4e3c-8ea2-42330b9bc4ef",
+ "execute_job_id": "930848bf-62f4-4a25-a225-4cfa34b6a034",
+ "rough_cost_hqc": [
+  13.4,
+  13.4,
+  15.4,
+  15.4,
+  13.2,
+  13.2,
+  15.4,
+  17.8,
+  15.6
+ ],
+ "max_cost_hqc": [],
+ "items": [
+  {
+   "index": 0,
+   "name": "pair_one_theta0",
+   "group": "pair_one",
+   "p0_ideal": 0.5000000000000002,
+   "circuit_id": "a845a685-1b52-4eac-a0ce-e5cd12a8cc81",
+   "compiled_id": "b693f847-a3a6-4964-9d63-7a8c717b4f4b",
+   "two_qubit_gates": 2,
+   "gates": 12
+  },
+  {
+   "index": 1,
+   "name": "pair_one_thetapi",
+   "group": "pair_one",
+   "p0_ideal": 0.5000000000000002,
+   "circuit_id": "74aa2dbd-d4c8-4b30-a612-e2f98493aa43",
+   "compiled_id": "69b2bf1f-7b3f-4263-bb00-2bce3b704b0d",
+   "two_qubit_gates": 2,
+   "gates": 12
+  },
+  {
+   "index": 2,
+   "name": "pair_two_theta0",
+   "group": "pair_two",
+   "p0_ideal": 1.0000000000000004,
+   "circuit_id": "6cb704ca-3fc7-4d7c-9fd6-ba53f3ce3ce7",
+   "compiled_id": "b57be884-74c3-4a96-a5c1-7b2e4105b9ed",
+   "two_qubit_gates": 3,
+   "gates": 13
+  },
+  {
+   "index": 3,
+   "name": "pair_two_thetapi",
+   "group": "pair_two",
+   "p0_ideal": 3.749399456654646e-33,
+   "circuit_id": "893cf20a-71f9-4371-aaba-70e12aa82e67",
+   "compiled_id": "dd06c0b7-ded1-4b53-a08b-1ab3d6a8162c",
+   "two_qubit_gates": 3,
+   "gates": 13
+  },
+  {
+   "index": 4,
+   "name": "fresh_two_theta0",
+   "group": "fresh_two",
+   "p0_ideal": 0.5000000000000002,
+   "circuit_id": "b6afdff3-9264-4b43-9739-f9af0a06f47a",
+   "compiled_id": "d07e563b-d1e7-48c0-9fe7-132aba21cc8c",
+   "two_qubit_gates": 2,
+   "gates": 11
+  },
+  {
+   "index": 5,
+   "name": "fresh_two_thetapi",
+   "group": "fresh_two",
+   "p0_ideal": 0.5000000000000002,
+   "circuit_id": "48119a0f-e685-4dd1-a51a-0dbb59ff0eb7",
+   "compiled_id": "768b71b6-d94e-48ed-bc41-fabe687d6393",
+   "two_qubit_gates": 2,
+   "gates": 11
+  },
+  {
+   "index": 6,
+   "name": "consulted_v0",
+   "group": "consulted",
+   "p0_ideal": 1.0000000000000004,
+   "circuit_id": "90285da5-3710-4d72-a389-90d8ac25fa7c",
+   "compiled_id": "bd7fdace-e567-4a14-8a98-b98cfb86931b",
+   "two_qubit_gates": 3,
+   "gates": 13
+  },
+  {
+   "index": 7,
+   "name": "consulted_vhalfpi",
+   "group": "consulted",
+   "p0_ideal": 0.5000000000000002,
+   "circuit_id": "43a35c28-6234-4bf1-85a5-6871d51fe10a",
+   "compiled_id": "e723bc92-0238-4ad2-831c-3613021c0e25",
+   "two_qubit_gates": 4,
+   "gates": 16
+  },
+  {
+   "index": 8,
+   "name": "consulted_vpi",
+   "group": "consulted",
+   "p0_ideal": 3.749399456654646e-33,
+   "circuit_id": "187546d3-5d33-4be2-8d85-3aecdb82e3f9",
+   "compiled_id": "9dc7f2f0-09d1-4b52-8ef9-e4accae04feb",
+   "two_qubit_gates": 3,
+   "gates": 14
+  }
+ ],
+ "submitted_utc": "2026-11-16T07:01:18+00:00"
+}

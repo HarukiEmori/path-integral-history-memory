@@ -3,7 +3,7 @@
 For a record process (Definition 1), the account of the category a at a recorded epoch t, given the final
 configuration x_f and the outcome m of a measurement of the archive after the last record, is
 
-   Pr(a | m, x_f) = <psi_t| (Pi_a (x) 1) E_t (Pi_a (x) 1) |psi_t> / <psi_t| E_t |psi_t>,
+   Pr(a | m, x_f) = <psi_t| (Pi_a (x) 1) E_t (Pi_a (x) 1) |psi_t> / sum_{a'} <psi_t| (Pi_a' (x) 1) E_t (Pi_a' (x) 1) |psi_t>,
 
 where psi_t is the joint state of system and archive after the step and the record of epoch t and E_t is the
 joint effect  |x_f><x_f| (x) |m><m|  carried backward through the later steps and records by their adjoints.
@@ -13,8 +13,9 @@ Checks:
   1. The formula equals the brute-force conditional probability obtained by inserting an actual sharp probe at
      epoch t, before or after the record of epoch t (both agree, by the non-demolition of the records).
   2. Summed over m and x_f it is the forward probability of a at epoch t (no dependence on later epochs).
-  3. For the sharp fresh archive (F = delta) read in its pointer basis, the account is the smoothing of the
-     Markov chain and does not depend on the valuations; read in a scrambled basis it does.
+  3. For the sharp fresh archive (F = delta) read in its pointer basis, the account repeats the record at a recorded
+     epoch and is the smoothing of the Markov chain at the single unrecorded epoch, without dependence on the
+     valuations; read in a scrambled basis it depends on them.
   4. For a counter (memory) the account depends on the basis in which the archive is read.
 Only numpy is required.
 """
@@ -227,7 +228,7 @@ check("4 counter with memory: the account depends on the basis in which the arch
 # 5 analytic example: N = 2, calN = 3, a sharp record at epoch 1 only, Hadamard accessibility, valuation phase theta
 # on configuration 1 at step 2; the record is read in the basis (|0> +- |1>)/sqrt2; the account of the unrecorded
 # epoch 2 given the outcome +- is Pr(a_2 = 0 | +-, x_f) = (1 +- cos theta)/2, whereas read in the pointer basis it is
-# the Markov smoothing 1/2 (Proposition 12).
+# the Markov smoothing 1/2 (Proposition 13).
 cats1 = {1: [0, 1]}
 proc1 = fresh_probe_process(2, cats1, 0.0)
 H = np.array([[1, 1], [1, -1]]) / np.sqrt(2)

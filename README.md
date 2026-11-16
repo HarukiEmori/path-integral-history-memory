@@ -2,10 +2,10 @@
 
 Numerical verification scripts for the manuscript *A Non-Markovian Extension of a Path Integral Model of History* (H. Emori and A. Iriki, 2026).
 The manuscript extends *A Path Integral Model of History* (same authors) from records taken by fresh independent probes to records with memory, an archive that is marked at several epochs, prepared in a correlated state, or processed between the records.
-This repository holds only the checks and the data of the two numerical figures; the manuscript itself is not kept here.
+This repository holds the checks, the data of the two numerical figures, and the circuits and results of a memory witness run on a Quantinuum emulator and processor; the manuscript itself is not kept here.
 
 ## Requirements
-Python 3.11 or later with NumPy (SciPy is not needed). On the authors' machine: `~/Develop/venv/quantum-env/bin/python` (NumPy 2.4).
+Python 3.11 or later with NumPy (SciPy is not needed) for `verify/`. On the authors' machine: `~/Develop/venv/quantum-env/bin/python` (NumPy 2.4). The script in `emulation/` needs pytket (2.18) and, for remote runs, qnexus (0.51) with a stored Nexus login.
 
 ## Layout
 | Path | Content |
@@ -14,23 +14,42 @@ Python 3.11 or later with NumPy (SciPy is not needed). On the authors' machine: 
 | `verify/influence_functional_check.py` | Theorem 1 (pair sum = explicit simulation for random record processes with reused archives), properties of $F$ (unit diagonal, positive semidefinite, causal), Theorem 2 (rebuild a process from its kernel; a mixture kernel), the latitude bound $1-\lambda_{\min}(F)$ (Corollary 1) and its value $(1-\kappa)^{\lvert\mathcal R\rvert}$ for fresh probes, the finite-archive bound (Proposition 4), invariance under post-processing of the archive (Proposition 5), the failure of blindness for a parity ledger (Corollary 2), and the identification of $F$ by two-path dynamics (Theorem 3(i), one block) |
 | `verify/identification_check.py` | Theorem 3 and Proposition 3: the two-configuration archive with hidden memory (its kernel, its blindness for random steps and valuations), the rank of the real-linear map from Hermitian kernels to realised distributions ($N = 3$ with injective and with coarse resolutions: injective; $N = 2$: a null space spanned exactly by the hidden tensors of the parity rule, and the visible and invisible Walsh sums), and the multi-block interferometer with sinks for $N = 3$ and two blocks, with the discrete Fourier transform that recovers $F[\mathbf a,\mathbf a']$ |
 | `verify/backaction_check.py` | Theorem 4 and Corollary 3 (records with back-action): the pair sum over transcripts against the joint simulation for random unitaries on system and archive, positivity and the comb normalisation of the kernel, the converse construction (a process rebuilt from its kernel), the latitude bound with the correlation matrix, the augmented sharp record of the transcript, its blindness to the valuations, and the channel of a memoryless record |
-| `verify/account_memory_check.py` | Proposition 13: the account of an epoch under an archive with memory (joint past quantum state) against the brute-force conditional probability with an inserted sharp probe, before and after the record, the forward marginal, the sharp archive read in its pointer basis (record repeated, Markov smoothing at an unrecorded epoch, no valuation dependence) and in a scrambled basis (dependence), the counter read in two bases, and the analytic example $\Pr(a_2 = 0 \mid \pm, x_{\mathrm f}) = (1 \pm \cos\theta)/2$ |
+| `verify/account_memory_check.py` | Proposition 14: the account of an epoch under an archive with memory (joint past quantum state) against the brute-force conditional probability with an inserted sharp probe, before and after the record, the forward marginal, the sharp archive read in its pointer basis (record repeated, Markov smoothing at an unrecorded epoch, no valuation dependence) and in a scrambled basis (dependence), the counter read in two bases, and the analytic example $\Pr(a_2 = 0 \mid \pm, x_{\mathrm f}) = (1 \pm \cos\theta)/2$ |
+| `verify/consulted_check.py` | Proposition 11 (consulted archives, the mechanisms with back-action): the double sum over paths and readings against a joint simulation, readings kept on fresh probes, definite readings (counters, entangled pair, copying probes) and the pair form with the influence functional of the marks and chronicle-dependent amplitudes, the kernel on transcripts $F[\mathbf a,\mathbf a']\beta(\mathbf r)\overline{\beta(\mathbf r')}$, the latitude bound against the sharp chronicle consulted in the same way, the classical process with chronicle-dependent transition probabilities and its independence of the valuations, the realisation of arbitrary laws on courses, records lost together and consulted, the example $P(0) = (1+\cos\vartheta)/2$ of the entangled pair, and the commutant of $\{W\otimes\overline{W}\}$ used in the proof of Theorem 3 |
 | `verify/ledger_check.py` | Ledgers (Proposition 6): $F$ depends on the tallies only, counters of capacity $D$, rotated qubits, the closed forms of the minimal example with memory (fresh probes, counters of capacity 2 and 3 or more, rotated qubit, archive lost as a whole), and the kernel of correlated intermittent records (Proposition 7) |
 | `verify/correlated_records_check.py` | Entangled pairs (Proposition 8): the record of change $F = [a_2 - a_1 \equiv a_2' - a_1' \bmod d]$, the general two-epoch formula and the trace formula for maximally entangled preparations, recoherence and the trace-distance backflow $1 \to 0 \to 1$ (Proposition 10), partial revival $\lvert\cos\phi\rvert$ with a rotation between the records, chains of pairs, and the range of the latitude bound of correlated losses |
 | `verify/gaussian_field_check.py` | Gaussian pointer fields (Proposition 9): the overlap of displaced Gaussians by quadrature, the momentum covariance of the pure Gaussian state, the exponential kernel (persistent versus alternating differences, white-noise and ledger limits), and the spectral (filter-function) form of the exponent |
-| `verify/retrodiction_check.py` | Section 6 (Propositions 11 and 12): causality (states and forward readout statistics do not depend on later operations), the past-quantum-state formula against brute-force conditional probabilities, the dependence of the retrodicted distribution on later valuations at $\kappa > 0$ and its reduction to forward-backward smoothing at $\kappa = 0$, and the ABL rule |
+| `verify/retrodiction_check.py` | Section 6 (Propositions 12 and 13): causality (states and forward readout statistics do not depend on later operations), the past-quantum-state formula against brute-force conditional probabilities, the dependence of the retrodicted distribution on later valuations at $\kappa > 0$ and its reduction to forward-backward smoothing at $\kappa = 0$, and the ABL rule |
 | `verify/figure_data.py` | Writes `figures/fig_counter.dat` (sensitivity to the valuation of a counter of capacity $D$ over six recorded epochs) and `figures/fig_gauss.dat` (influence functional of the exponential kernel as a function of the correlation $r$), whose values are inlined as pgfplots coordinates in the manuscript |
+| `emulation/memory_witness.py` | Circuits of the memory witness of Sec. 8 (three qubits: the course and an entangled pair of archive qubits; the visibility of a two-path interferometer is 0 after the first record and 1 after the second, which a memoryless record process cannot produce), a memoryless control, and the consulted-pair example of Proposition 11; ideal values from the state vectors, analysis of counts, and submission and retrieval through Quantinuum Nexus |
+| `results/<device>/` | Submission records (`submission_*.json`, with the Nexus job identifiers), counts (`counts_*.json`) and analysis (`analysis_*.json`) of the runs of `emulation/memory_witness.py` |
 
 ## Run
 ```bash
 cd verify
-for f in influence_functional_check.py identification_check.py backaction_check.py account_memory_check.py ledger_check.py correlated_records_check.py gaussian_field_check.py retrodiction_check.py; do python "$f"; done
+for f in influence_functional_check.py identification_check.py backaction_check.py consulted_check.py account_memory_check.py ledger_check.py correlated_records_check.py gaussian_field_check.py retrodiction_check.py; do python "$f"; done
 python figure_data.py
 ```
 Every check script prints `ALL PASS` when all checks pass; the printed discrepancies are of the order of machine precision (the quadrature and finite-difference checks of `gaussian_field_check.py` are accurate to about $10^{-4}$ or better).
 
+## Memory witness on a Quantinuum emulator and processor
+```bash
+cd emulation
+python memory_witness.py --local                          # ideal values from the state vectors (no remote call)
+python memory_witness.py --submit reimei-E --shots 1000   # emulator of reimei, all nine circuits
+python memory_witness.py --submit reimei --shots 200 --set witness --confirm-hardware --max-total-cost 60
+python memory_witness.py --status results/reimei/submission_<tag>.json
+python memory_witness.py --fetch  results/reimei/submission_<tag>.json
+```
+Runs recorded in `results/` (times in UTC as reported by Nexus; circuits compiled on Nexus at optimisation level 2):
+
+| Device | Circuits | Shots | Submitted | Result |
+| :-- | :-- | :-- | :-- | :-- |
+| `reimei-E` (emulator) | 9 (witness, control, consulted pair) | 1000 | 2026-11-16 07:01 | visibility $-0.021 \pm 0.022$ after one record and $0.992 \pm 0.003$ after two (ideal 0 and 1); control $0.002 \pm 0.022$; consulted pair $P(0) = 0.998,\ 0.512,\ 0.008$ at $\vartheta = 0,\ \pi/2,\ \pi$ |
+| `reimei` (processor) | 4 (witness) | 200 | 2026-11-16 07:04 | queued at the time of this commit; see `results/reimei/` |
+
 ## Conventions
-The numbering of theorems and propositions in the table follows the manuscript of 2026-11-04 (Theorems 1--4, Corollaries 1--3, Propositions 1--13). Epochs are numbered from 1 and a record at epoch $t$ is applied after the step $W_t$. The kernel is stored as a matrix indexed by record sequences in the order of `itertools.product`, with `F[i, j] = <Phi_j | Phi_i>` in the convention $F[\mathbf a,\mathbf a'] = \langle\Phi_{\mathbf a'}\vert\Phi_{\mathbf a}\rangle$ of the manuscript.
+The numbering of theorems and propositions in the table follows the manuscript of 2026-11-15 (Theorems 1--4, Corollaries 1--3, Propositions 1--14). Epochs are numbered from 1 and a record at epoch $t$ is applied after the step $W_t$. The kernel is stored as a matrix indexed by record sequences in the order of `itertools.product`, with `F[i, j] = <Phi_j | Phi_i>` in the convention $F[\mathbf a,\mathbf a'] = \langle\Phi_{\mathbf a'}\vert\Phi_{\mathbf a}\rangle$ of the manuscript.
 
 ## Licence
 MIT (see `LICENSE`).

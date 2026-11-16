@@ -1,0 +1,81 @@
+{
+ "p0": {
+  "pair_one_theta0": {
+   "p0": 0.49,
+   "stderr": 0.0158082257068907,
+   "shots": 1000,
+   "ideal": 0.5000000000000002
+  },
+  "pair_one_thetapi": {
+   "p0": 0.511,
+   "stderr": 0.015807561481771943,
+   "shots": 1000,
+   "ideal": 0.5000000000000002
+  },
+  "pair_two_theta0": {
+   "p0": 0.998,
+   "stderr": 0.0014127986409959495,
+   "shots": 1000,
+   "ideal": 1.0000000000000004
+  },
+  "pair_two_thetapi": {
+   "p0": 0.006,
+   "stderr": 0.002442130217658346,
+   "shots": 1000,
+   "ideal": 3.749399456654646e-33
+  },
+  "fresh_two_theta0": {
+   "p0": 0.499,
+   "stderr": 0.015811356678033673,
+   "shots": 1000,
+   "ideal": 0.5000000000000002
+  },
+  "fresh_two_thetapi": {
+   "p0": 0.497,
+   "stderr": 0.01581110369329099,
+   "shots": 1000,
+   "ideal": 0.5000000000000002
+  },
+  "consulted_v0": {
+   "p0": 0.998,
+   "stderr": 0.0014127986409959495,
+   "shots": 1000,
+   "ideal": 1.0000000000000004
+  },
+  "consulted_vhalfpi": {
+   "p0": 0.512,
+   "stderr": 0.01580683396509244,
+   "shots": 1000,
+   "ideal": 0.5000000000000002
+  },
+  "consulted_vpi": {
+   "p0": 0.008,
+   "stderr": 0.0028170906978654416,
+   "shots": 1000,
+   "ideal": 3.749399456654646e-33
+  }
+ },
+ "visibility": {
+  "pair_one": {
+   "V": -0.02100000000000002,
+   "stderr": 0.02235573751858793,
+   "ideal": 0.0
+  },
+  "pair_two": {
+   "V": 0.992,
+   "stderr": 0.0028213471959331773,
+   "ideal": 1.0
+  },
+  "fresh_two": {
+   "V": 0.0020000000000000018,
+   "stderr": 0.022360456167082102,
+   "ideal": 0.0
+  }
+ },
+ "witness": {
+  "rise": 1.013,
+  "stderr": 0.022533064594058218,
+  "sigmas": 44.95615746235954,
+  "statement": "a memoryless record process cannot raise the visibility when a record is added"
+ }
+}

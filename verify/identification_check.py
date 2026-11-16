@@ -11,7 +11,8 @@ Checks for the manuscript (Sec. 4.4, identification theorem, and the blind archi
        N = 2 : the null space is spanned by the "hidden" tensors predicted by the parity rule
                (two off-diagonal factors enclosing an odd number of d^- factors).
   C. The explicit multi-block interferometer (sinks) for N = 3 and two blocks of consecutive differences:
-       P(x_f) = 2^{1-2n} [1 + Re(e^{-i theta} F[a, a'])]  with n = 2.
+       exactly the 2^n courses x_s reach x_f, P(x_f; theta) = 4^{-n} sum_{s,s'} F[x_s, x_s'] e^{i(s-s').theta}, and the
+       discrete Fourier transform over the 3^n grid of phases recovers F[a, a'] (n = 2).
 
 Only numpy is required.
 """
