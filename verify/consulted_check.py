@@ -19,6 +19,8 @@ Checks:
   5. Examples (a) consulted counter, (b) records lost together and consulted, (c) copying probes,
      (d) entangled pair with P(0) = (1 + cos theta)/2 against 1/2.
   6. The commutant of {W (x) conj(W)} is span{1, P_Omega} for N = 2, 3, 4 (Haar samples; the proof's generators).
+  7. A reading that is not definite restores interference: a sharp probe consulted in its Fourier basis by a
+     valuation-only step gives P(0) = (1 + cos theta)/2, against 1/2 for the pointer reading.
 Only numpy is required.
 """
 from __future__ import annotations
@@ -508,6 +510,32 @@ for N in (2, 3, 4):
         info.append("N=%d %s: %d" % (N, label, dim))
         ok6 &= label == 'no rotation' or (dim == 2 and inside < 1e-10)
 check("6 commutant of {W (x) conj W} = span{1, P_Omega} for N = 2, 3, 4 (dimensions listed)", ok6, "; ".join(info))
+
+# ----------------------------------------------------------------------------- 7. a reading that is not definite
+# N = 2, calN = 2, R = {1}, a fresh sharp probe (F = delta), W_1 = Hadamard.  The valuation alone is consulted:
+# W_2^(nu) = H diag(1, exp(i(theta + nu pi))).  Read in the pointer basis (definite reading) the course is blind,
+# P(0) = 1/2; read in the Fourier basis of the probe (not definite) the interference that the mark had removed
+# returns, P(0) = (1 + cos theta)/2.  This is the reason for the hypothesis of definite readings in (ii)-(iv).
+
+def consulted_two_step(theta, basis):
+    H = np.array([[1, 1], [1, -1]], dtype=complex) / np.sqrt(2)
+    psi = np.zeros((2, 2), dtype=complex)             # psi[x, probe]
+    psi[:, 0] = H[:, 0]                               # step 1 from x_i = 0, probe in |0>
+    psi = np.stack([psi[0], psi[1][::-1]])            # sharp record: probe -> |x>
+    out = np.zeros((2, 2), dtype=complex)
+    for nu in range(2):
+        Q = np.outer(basis[:, nu], basis[:, nu].conj())
+        W = H @ np.diag([1.0, np.exp(1j * (theta + nu * np.pi))])
+        out += W @ psi @ Q.T                          # (W (x) Q) acting on psi[x, probe]
+    return float(np.sum(np.abs(out[0]) ** 2))
+
+worst_def, worst_indef = 0.0, 0.0
+fourier = np.array([[1, 1], [1, -1]], dtype=complex) / np.sqrt(2)
+for theta in np.linspace(0.0, np.pi, 7):
+    worst_def = max(worst_def, abs(consulted_two_step(theta, np.eye(2, dtype=complex)) - 0.5))
+    worst_indef = max(worst_indef, abs(consulted_two_step(theta, fourier) - 0.5 * (1 + np.cos(theta))))
+check("7 valuation-only consultation of a sharp probe: pointer reading gives 1/2, Fourier reading (1 + cos theta)/2",
+      worst_def < 1e-12 and worst_indef < 1e-12, "max diffs %.1e / %.1e" % (worst_def, worst_indef))
 
 print("\nrun time %.1f s" % (time.time() - T0))
 print("ALL PASS" if all(ok for _, ok in report) else "SOME CHECKS FAILED")
